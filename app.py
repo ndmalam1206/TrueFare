@@ -24,6 +24,11 @@ app.config.update(
 db.init_app(app)
 
 
+def bcrypt_password_bytes(password):
+    """Keep bcrypt's prior 72-byte input behavior explicit across versions."""
+    return password.encode('utf-8')[:72]
+
+
 def normalize_location_name(value):
     if value is None:
         return ''
@@ -106,7 +111,7 @@ def ensure_schema():
         if not existing_admin:
             admin_password = os.environ.get('ADMIN_PASSWORD')
             if admin_password:
-                password_hash = bcrypt.hashpw(admin_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+                password_hash = bcrypt.hashpw(bcrypt_password_bytes(admin_password), bcrypt.gensalt()).decode('utf-8')
                 db.session.add(AdminUser(username=admin_username, password_hash=password_hash))
                 db.session.commit()
             else:
@@ -364,7 +369,7 @@ def admin_login():
         password = request.form.get('password') or ''
 
         user = AdminUser.query.filter(AdminUser.username.ilike(username)).first()
-        if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
+        if user and bcrypt.checkpw(bcrypt_password_bytes(password), user.password_hash.encode('utf-8')):
             session['admin'] = user.username
             session.permanent = True
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
