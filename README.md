@@ -173,12 +173,6 @@ For production:
 - Enable HTTPS
 - Set up proper logging and monitoring
 
-## Cloudflare deployment
-
-The existing Flask/WSGI application is prepared for Cloudflare Containers. Follow
-[CLOUDFLARE.md](CLOUDFLARE.md) for deployment prerequisites, Worker secrets, and
-persistent database setup. Keep using SQLite for local development.
-
 ## License
 
 This project is for educational and demonstration purposes.
