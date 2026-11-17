@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light sticky-top" aria-label="Main navigation">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <i class="bi bi-geo-alt-fill me-2"></i>TrueFare
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#search">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+                        <i class="bi bi-chat-dots me-1"></i>Feedback
+                    </button>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="btn btn-link nav-link dropdown-toggle text-white" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="/admin/login" id="adminLoginLink">
+                            <i class="bi bi-shield-lock me-2"></i>Admin Access
+                        </a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-overlay">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="hero-title">Never Get Overcharged Again</h1>
+                    <p class="hero-subtitle">Know the exact local fare before you travel</p>
+                    <p class="hero-description">Built for real people using real local transport</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Search Section -->
+<section id="search" class="search-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="search-card card">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <i class="bi bi-search text-white fs-1 mb-3"></i>
+                            <h3 class="search-title">Find Your Fare</h3>
+                            <p class="search-subtitle">Get accurate transportation fares instantly</p>
+                        </div>
+                        <form id="searchForm">
+                            <div class="mb-4 position-relative">
+                                <div class="input-icon">
+                                    📍
+                                </div>
+                                <input type="text" class="form-control form-control-lg"
+                                       id="from" name="from" autocomplete="off" required
+                                       placeholder="Enter pickup location">
+                                <input type="hidden" id="from_lat" name="from_lat">
+                                <input type="hidden" id="from_lng" name="from_lng">
+                                <div id="fromSuggestions" class="suggestions"></div>
+                            </div>
+                            <div class="mb-4 position-relative">
+                                <div class="input-icon">
+                                    🏁
+                                </div>
+                                <input type="text" class="form-control form-control-lg"
+                                       id="to" name="to" autocomplete="off" required
+                                       placeholder="Enter destination">
+                                <input type="hidden" id="to_lat" name="to_lat">
+                                <input type="hidden" id="to_lng" name="to_lng">
+                                <div id="toSuggestions" class="suggestions"></div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                <i class="bi bi-search me-2"></i>Check Fare
+                            </button>
+                        </form>
+
+                        <!-- Result Display -->
+                        <div id="resultArea" style="display: none;">
+                            <div id="resultContent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section py-5">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8 text-center">
+                <h2 class="features-heading">Why Choose TrueFare?</h2>
+                <p class="features-subheading">Smart, reliable, and built for real-world local travel</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-card-icon">
+                        <i class="bi bi-bullseye"></i>
+                    </div>
+                    <h5 class="feature-card-title">Accurate Local Fare</h5>
+                    <p class="feature-card-description">Get the exact fare based on real local data, not guesses or dynamic pricing.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-card-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h5 class="feature-card-title">No Overcharging</h5>
+                    <p class="feature-card-description">Travel confidently knowing you're paying the right amount every time.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-card-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <h5 class="feature-card-title">Community Powered</h5>
+                    <p class="feature-card-description">Built using real user feedback to ensure fairness and accuracy.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trust Section -->
+<section class="trust-section py-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <p class="trust-text">Built for everyday travelers who deserve fair and transparent pricing.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer-section">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <p class="footer-main mb-2">Created by Nadeem Alam © 2026</p>
+                <p class="footer-brand mb-2">TrueFare – Making Local Travel Fair & Transparent</p>
+                <p class="footer-tagline">A real-world solution to prevent overcharging in local transport</p>
+                <a class="footer-about-link" href="{{ url_for('about') }}">About TrueFare</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Feedback Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <div class="text-center w-100">
+                    <i class="bi bi-chat-dots-fill text-primary fs-1 mb-3"></i>
+                    <h4 class="modal-title fw-bold">Share Your Fare Experience</h4>
+                    <p class="text-muted mb-0">Help improve TrueFare by submitting accurate fare information</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <form id="feedbackForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="fb_from" class="form-label fw-semibold">
+                                <i class="bi bi-geo-alt-fill text-primary me-1"></i>From Location
+                            </label>
+                            <input type="text" class="form-control rounded-3"
+                                   id="fb_from" name="from" required
+                                   placeholder="Starting point">
+                            <input type="hidden" id="fb_from_lat" name="from_lat">
+                            <input type="hidden" id="fb_from_lng" name="from_lng">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="fb_to" class="form-label fw-semibold">
+                                <i class="bi bi-geo-alt-fill text-success me-1"></i>To Location
+                            </label>
+                            <input type="text" class="form-control rounded-3"
+                                   id="fb_to" name="to" required
+                                   placeholder="Destination">
+                            <input type="hidden" id="fb_to_lat" name="to_lat">
+                            <input type="hidden" id="fb_to_lng" name="to_lng">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="fb_fare" class="form-label fw-semibold">
+                            <i class="bi bi-cash text-warning me-1"></i>Fare Amount
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light">₹</span>
+                            <input type="number" step="0.01" min="0"
+                                   class="form-control rounded-end"
+                                   id="fb_fare" name="fare" required
+                                   placeholder="0.00">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 btn-lg rounded-pill fw-semibold">
+                        <i class="bi bi-send-fill me-2"></i>Submit Feedback
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Login Modal -->
+<div class="modal fade" id="adminLoginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <div class="text-center w-100">
+                    <i class="bi bi-shield-lock-fill text-primary fs-2 mb-2"></i>
+                    <h5 class="modal-title fw-bold">Admin Access</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <form id="adminLoginForm" method="post" action="/admin/login">
+                    <div class="mb-3">
+                        <label for="admin_username" class="form-label fw-semibold">Username</label>
+                        <input type="text" class="form-control rounded-3"
+                               id="admin_username" name="username" required
+                               placeholder="Enter username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="admin_password" class="form-label fw-semibold">Password</label>
+                        <input type="password" class="form-control rounded-3"
+                               id="admin_password" name="password" required
+                               placeholder="Enter password">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill fw-semibold">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

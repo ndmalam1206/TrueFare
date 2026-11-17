@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+*.pem
+*.key
+*.secret
+secrets/
+credentials/
+
+# Local databases and instance state
+instance/*
+!instance/.gitkeep
+*.db
+*.sqlite
+*.sqlite3
+
+# Node.js and Cloudflare tooling
+node_modules/
+.wrangler/
+worker-configuration.d.ts
+
+# Test, editor, and OS files
+.pytest_cache/
+.coverage
+htmlcov/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

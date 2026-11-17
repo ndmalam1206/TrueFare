@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary" href="#">
+            <i class="bi bi-geo-alt-fill me-2"></i>TrueFare
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#search">Search</a>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+                        <i class="bi bi-chat-dots me-1"></i>Feedback
+                    </button>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="btn btn-link nav-link dropdown-toggle text-dark" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" id="adminLoginLink">
+                            <i class="bi bi-shield-lock me-2"></i>Admin Access
+                        </a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-overlay">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h1 class="hero-title">TrueFare AI</h1>
+                    <p class="hero-subtitle">Know the Right Fare for Your Journey</p>
+                    <p class="hero-description">Get accurate transportation fares powered by community intelligence and AI analysis</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Search Section -->
+<section id="search" class="search-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="search-card card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-4">
+                        <div class="text-center mb-4">
+                            <i class="bi bi-search text-primary fs-1 mb-3"></i>
+                            <h3 class="fw-bold text-dark">Find Your Fare</h3>
+                            <p class="text-muted">Enter your route to get instant fare information</p>
+                        </div>
+                        <form id="searchForm">
+                            <div class="mb-3">
+                                <label for="from" class="form-label fw-semibold">
+                                    <i class="bi bi-geo-alt-fill text-primary me-1"></i>From Location
+                                </label>
+                                <input type="text" class="form-control form-control-lg rounded-3"
+                                       id="from" name="from" autocomplete="off" required
+                                       placeholder="Enter starting location">
+                                <div id="fromSuggestions" class="suggestions"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="to" class="form-label fw-semibold">
+                                    <i class="bi bi-geo-alt-fill text-success me-1"></i>To Location
+                                </label>
+                                <input type="text" class="form-control form-control-lg rounded-3"
+                                       id="to" name="to" autocomplete="off" required
+                                       placeholder="Enter destination">
+                                <div id="toSuggestions" class="suggestions"></div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill fw-semibold">
+                                <i class="bi bi-search me-2"></i>Check Fare
+                            </button>
+                        </form>
+
+                        <!-- Result Display -->
+                        <div id="resultArea" class="mt-4" style="display: none;">
+                            <hr class="my-4">
+                            <div id="resultContent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="fw-bold text-dark mb-3">Why Choose TrueFare?</h2>
+                <p class="text-muted">Experience the future of transportation fare intelligence</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card card border-0 shadow-sm rounded-4 h-100 text-center p-4">
+                    <div class="feature-icon bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3 mx-auto" style="width: 60px; height: 60px;">
+                        <i class="bi bi-robot fs-4"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">AI-Powered</h5>
+                    <p class="text-muted">Advanced algorithms analyze community data to provide accurate fare estimates</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card card border-0 shadow-sm rounded-4 h-100 text-center p-4">
+                    <div class="feature-icon bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3 mx-auto" style="width: 60px; height: 60px;">
+                        <i class="bi bi-people-fill fs-4"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Community Driven</h5>
+                    <p class="text-muted">Real user feedback ensures fares reflect current market conditions</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card card border-0 shadow-sm rounded-4 h-100 text-center p-4">
+                    <div class="feature-icon bg-info bg-opacity-10 text-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3 mx-auto" style="width: 60px; height: 60px;">
+                        <i class="bi bi-lightning-charge-fill fs-4"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Instant Results</h5>
+                    <p class="text-muted">Get fare information in seconds with our optimized search engine</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Feedback Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-0">
+                <div class="text-center w-100">
+                    <i class="bi bi-chat-dots-fill text-primary fs-1 mb-3"></i>
+                    <h4 class="modal-title fw-bold">Share Your Fare Experience</h4>
+                    <p class="text-muted mb-0">Help improve TrueFare by submitting accurate fare information</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <form id="feedbackForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="fb_from" class="form-label fw-semibold">
+                                <i class="bi bi-geo-alt-fill text-primary me-1"></i>From Location
+                            </label>
+                            <input type="text" class="form-control rounded-3"
+                                   id="fb_from" name="from" required
+                                   placeholder="Starting point">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="fb_to" class="form-label fw-semibold">
+                                <i class="bi bi-geo-alt-fill text-success me-1"></i>To Location
+                            </label>
+                            <input type="text" class="form-control rounded-3"
+                                   id="fb_to" name="to" required
+                                   placeholder="Destination">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="fb_fare" class="form-label fw-semibold">
+                            <i class="bi bi-cash text-warning me-1"></i>Fare Amount
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light">$</span>
+                            <input type="number" step="0.01" min="0"
+                                   class="form-control rounded-end"
+                                   id="fb_fare" name="fare" required
+                                   placeholder="0.00">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 btn-lg rounded-pill fw-semibold">
+                        <i class="bi bi-send-fill me-2"></i>Submit Feedback
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Login Modal -->
+<div class="modal fade" id="adminLoginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-0">
+                <div class="text-center w-100">
+                    <i class="bi bi-shield-lock-fill text-primary fs-2 mb-2"></i>
+                    <h5 class="modal-title fw-bold">Admin Access</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <form id="adminLoginForm" method="post" action="/admin/login">
+                    <div class="mb-3">
+                        <label for="username" class="form-label fw-semibold">Username</label>
+                        <input type="text" class="form-control rounded-3"
+                               id="username" name="username" required
+                               placeholder="Enter username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label fw-semibold">Password</label>
+                        <input type="password" class="form-control rounded-3"
+                               id="password" name="password" required
+                               placeholder="Enter password">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill fw-semibold">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

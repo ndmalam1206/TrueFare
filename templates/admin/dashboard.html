@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="fw-bold text-dark mb-1">
+                        <i class="bi bi-speedometer2 text-primary me-3"></i>Admin Dashboard
+                    </h1>
+                    <p class="text-muted mb-0">Manage TrueFare routes and feedback</p>
+                </div>
+                <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-danger rounded-pill px-4">
+                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body text-center p-4">
+                    <div class="stat-icon bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="bi bi-geo-alt-fill fs-4"></i>
+                    </div>
+                    <h3 class="fw-bold text-dark mb-1">{{ routes|length }}</h3>
+                    <p class="text-muted mb-0">Active Routes</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body text-center p-4">
+                    <div class="stat-icon bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="bi bi-check-circle-fill fs-4"></i>
+                    </div>
+                    <h3 class="fw-bold text-dark mb-1">{{ routes|selectattr('status', 'equalto', 'verified')|list|length }}</h3>
+                    <p class="text-muted mb-0">Verified Routes</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body text-center p-4">
+                    <div class="stat-icon bg-warning bg-opacity-10 text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="bi bi-chat-dots-fill fs-4"></i>
+                    </div>
+                    <h3 class="fw-bold text-dark mb-1">{{ feedbacks|length }}</h3>
+                    <p class="text-muted mb-0">Feedback Items</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body text-center p-4">
+                    <div class="stat-icon bg-info bg-opacity-10 text-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="bi bi-graph-up fs-4"></i>
+                    </div>
+                    <h3 class="fw-bold text-dark mb-1">{{ locations|length }}</h3>
+                    <p class="text-muted mb-0">Locations</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="row">
+        <!-- Routes Section -->
+        <div class="col-lg-8 mb-4">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header bg-white border-0 pt-4 pb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold text-dark mb-0">
+                            <i class="bi bi-signpost-2-fill text-primary me-2"></i>Routes Management
+                        </h5>
+                        <a href="{{ url_for('add_route') }}" class="btn btn-primary rounded-pill px-4">
+                            <i class="bi bi-plus-circle me-2"></i>Add Route
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    {% if routes %}
+                    <div class="list-group list-group-flush">
+                        {% for route in routes %}
+                        <div class="list-group-item border-0 px-4 py-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <span class="fw-semibold text-dark me-2">{{ route.from_location.name }}</span>
+                                        <i class="bi bi-arrow-right text-muted mx-2"></i>
+                                        <span class="fw-semibold text-dark me-3">{{ route.to_location.name }}</span>
+                                        <span class="badge {% if route.status == 'verified' %}bg-success{% elif route.status == 'pending' %}bg-warning text-dark{% else %}bg-secondary{% endif %} rounded-pill px-3">
+                                            {{ route.status|title }}
+                                        </span>
+                                    </div>
+                                    <div class="text-muted small">
+                                        <i class="bi bi-cash me-1"></i>₹{{ "%.2f"|format(route.fare) }}
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-signpost-2 text-muted fs-1 mb-3"></i>
+                        <h6 class="text-muted">No routes found</h6>
+                        <a href="{{ url_for('add_route') }}" class="btn btn-outline-primary rounded-pill mt-3">
+                            <i class="bi bi-plus-circle me-2"></i>Add First Route
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Section -->
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header bg-white border-0 pt-4 pb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold text-dark mb-0">
+                            <i class="bi bi-chat-dots-fill text-warning me-2"></i>Recent Feedback
+                        </h5>
+                        <a href="{{ url_for('view_feedback') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                            View All
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    {% if feedbacks %}
+                    <div class="list-group list-group-flush">
+                        {% for feedback in feedbacks[:5] %}
+                        <div class="list-group-item border-0 px-4 py-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <small class="fw-semibold text-dark">{{ feedback.from_location.name }}</small>
+                                        <i class="bi bi-arrow-right text-muted mx-2 small"></i>
+                                        <small class="fw-semibold text-dark">{{ feedback.to_location.name }}</small>
+                                    </div>
+                                    <div class="text-muted small mb-1">
+                                        <i class="bi bi-cash me-1"></i>₹{{ "%.2f"|format(feedback.fare) }}
+                                    </div>
+                                    <small class="text-muted">{{ feedback.timestamp.strftime('%b %d') }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-chat-dots text-muted fs-1 mb-3"></i>
+                        <h6 class="text-muted">No feedback yet</h6>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.stat-icon {
+    transition: transform 0.2s ease;
+}
+.stat-icon:hover {
+    transform: scale(1.05);
+}
+.list-group-item:hover {
+    background-color: rgba(var(--bs-primary-rgb), 0.02);
+}
+</style>
+{% endblock %}

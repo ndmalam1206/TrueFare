@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);">
+    <div class="row justify-content-center w-100">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-shield-lock-fill text-primary fs-1 mb-3"></i>
+                        <h2 class="fw-bold text-dark mb-2">Admin Access</h2>
+                        <p class="text-muted">Secure login to manage TrueFare</p>
+                    </div>
+
+                    {% if error %}
+                    <div class="alert alert-danger rounded-3 mb-4">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
+                    </div>
+                    {% endif %}
+
+                    <form id="adminLoginForm" method="post" class="user-select-none">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <div class="mb-4">
+                            <label for="admin_username" class="form-label fw-semibold text-dark">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-person-fill text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control form-control-lg border-start-0 ps-0"
+                                       id="admin_username" name="username" required
+                                       placeholder="Enter username">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="admin_password" class="form-label fw-semibold text-dark">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-lock-fill text-muted"></i>
+                                </span>
+                                <input type="password" class="form-control form-control-lg border-start-0 ps-0"
+                                       id="admin_password" name="password" required
+                                       placeholder="Enter password">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3 fw-semibold mb-3">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                        </button>
+                    </form>
+
+                    <div class="text-center">
+                        <a href="/" class="text-decoration-none">
+                            <i class="bi bi-arrow-left me-1"></i>Back to TrueFare
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

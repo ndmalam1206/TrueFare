@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-3">
+                    <li class="breadcrumb-item">
+                        <a href="{{ url_for('admin_dashboard') }}" class="text-decoration-none">
+                            <i class="bi bi-house me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Add Route</li>
+                </ol>
+            </nav>
+            <h1 class="fw-bold text-dark mb-1">
+                <i class="bi bi-plus-circle-fill text-primary me-3"></i>Add New Route
+            </h1>
+            <p class="text-muted mb-0">Create a new transportation route with fare information</p>
+        </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header bg-white border-0 pt-4 pb-3">
+                    <h5 class="fw-bold text-dark mb-0">
+                        <i class="bi bi-signpost-2-fill text-primary me-2"></i>Route Details
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" class="user-select-none">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="from" class="form-label fw-semibold text-dark">
+                                    <i class="bi bi-geo-alt-fill text-primary me-1"></i>From Location
+                                </label>
+                                <input type="text" class="form-control form-control-lg rounded-3"
+                                       id="from" name="from" required
+                                       placeholder="Enter starting location">
+                                <input type="hidden" id="from_lat" name="from_lat">
+                                <input type="hidden" id="from_lng" name="from_lng">
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label for="to" class="form-label fw-semibold text-dark">
+                                    <i class="bi bi-geo-alt-fill text-success me-1"></i>To Location
+                                </label>
+                                <input type="text" class="form-control form-control-lg rounded-3"
+                                       id="to" name="to" required
+                                       placeholder="Enter destination">
+                                <input type="hidden" id="to_lat" name="to_lat">
+                                <input type="hidden" id="to_lng" name="to_lng">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="fare" class="form-label fw-semibold text-dark">
+                                    <i class="bi bi-cash text-warning me-1"></i>Fare Amount
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">₹</span>
+                                    <input type="number" step="0.01" min="0"
+                                           class="form-control form-control-lg rounded-end"
+                                           id="fare" name="fare" required
+                                           placeholder="0.00">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label for="type" class="form-label fw-semibold text-dark">
+                                    <i class="bi bi-diagram-3 text-info me-1"></i>Route Type
+                                </label>
+                                <select class="form-select form-select-lg rounded-3"
+                                        id="type" name="type" required>
+                                    <option value="direct">Direct Route</option>
+                                    <option value="indirect">Indirect Route</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-4" id="viaDiv" style="display: none;">
+                            <label for="via" class="form-label fw-semibold text-dark">
+                                <i class="bi bi-arrow-right-circle text-secondary me-1"></i>Via Location
+                            </label>
+                            <input type="text" class="form-control form-control-lg rounded-3"
+                                   id="via" name="via"
+                                   placeholder="Enter intermediate location (optional)">
+                            <input type="hidden" id="via_lat" name="via_lat">
+                            <input type="hidden" id="via_lng" name="via_lng">
+                            <div class="form-text">For indirect routes, specify the connecting location</div>
+                        </div>
+
+                        <div class="d-flex gap-3 pt-3">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5">
+                                <i class="bi bi-check-circle me-2"></i>Add Route
+                            </button>
+                            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary btn-lg rounded-pill px-4">
+                                <i class="bi bi-x-circle me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Form submission with geocoding
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const fromAddress = document.getElementById('from').value;
+        const toAddress = document.getElementById('to').value;
+        const viaAddress = document.getElementById('via').value;
+
+        // Geocode from location
+        if (fromAddress) {
+            const fromCoords = await geocodeAddress(fromAddress);
+            if (fromCoords) {
+                document.getElementById('from_lat').value = fromCoords.lat;
+                document.getElementById('from_lng').value = fromCoords.lng;
+            }
+        }
+
+        // Geocode to location
+        if (toAddress) {
+            const toCoords = await geocodeAddress(toAddress);
+            if (toCoords) {
+                document.getElementById('to_lat').value = toCoords.lat;
+                document.getElementById('to_lng').value = toCoords.lng;
+            }
+        }
+
+        // Geocode via location if provided
+        if (viaAddress) {
+            const viaCoords = await geocodeAddress(viaAddress);
+            if (viaCoords) {
+                document.getElementById('via_lat').value = viaCoords.lat;
+                document.getElementById('via_lng').value = viaCoords.lng;
+            }
+        }
+
+        // Submit the form
+        this.submit();
+    });
+
+    // Initialize Google Places Autocomplete for admin form
+    const fromInput = document.getElementById('from');
+    const toInput = document.getElementById('to');
+    const viaInput = document.getElementById('via');
+
+    if (fromInput) {
+        const fromAutocomplete = new google.maps.places.Autocomplete(fromInput, {
+            types: ['geocode']
+        });
+        fromAutocomplete.addListener('place_changed', function() {
+            const place = fromAutocomplete.getPlace();
+            if (place.geometry) {
+                document.getElementById('from_lat').value = place.geometry.location.lat();
+                document.getElementById('from_lng').value = place.geometry.location.lng();
+            }
+        });
+    }
+
+    if (toInput) {
+        const toAutocomplete = new google.maps.places.Autocomplete(toInput, {
+            types: ['geocode']
+        });
+        toAutocomplete.addListener('place_changed', function() {
+            const place = toAutocomplete.getPlace();
+            if (place.geometry) {
+                document.getElementById('to_lat').value = place.geometry.location.lat();
+                document.getElementById('to_lng').value = place.geometry.location.lng();
+            }
+        });
+    }
+
+    if (viaInput) {
+        const viaAutocomplete = new google.maps.places.Autocomplete(viaInput, {
+            types: ['geocode']
+        });
+        viaAutocomplete.addListener('place_changed', function() {
+            const place = viaAutocomplete.getPlace();
+            if (place.geometry) {
+                document.getElementById('via_lat').value = place.geometry.location.lat();
+                document.getElementById('via_lng').value = place.geometry.location.lng();
+            }
+        });
+    }
+});
+
+// Geocode address using Google Places API (fallback)
+async function geocodeAddress(address) {
+    if (!address || address.trim() === '') return null;
+
+    return new Promise((resolve) => {
+        const geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address: address }, function(results, status) {
+            if (status === google.maps.GeocoderStatus.OK && results[0]) {
+                const location = results[0].geometry.location;
+                resolve({
+                    lat: location.lat(),
+                    lng: location.lng()
+                });
+            } else {
+                console.error('Geocoding failed for:', address);
+                resolve(null);
+            }
+        });
+    });
+}
+
+document.getElementById('type').addEventListener('change', function() {
+    const viaDiv = document.getElementById('viaDiv');
+    if (this.value === 'indirect') {
+        viaDiv.style.display = 'block';
+        viaDiv.querySelector('input').required = true;
+    } else {
+        viaDiv.style.display = 'none';
+        viaDiv.querySelector('input').required = false;
+    }
+});
+</script>
+
+<style>
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.15);
+}
+.input-group-text {
+    border-color: var(--border-color);
+}
+</style>
+{% endblock %}

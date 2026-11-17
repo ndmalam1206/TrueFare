@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}About TrueFare{% endblock %}
+
+{% block content %}
+<div class="about-page">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" aria-label="Main navigation">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <i class="bi bi-geo-alt-fill me-2"></i>TrueFare
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#aboutNavbar" aria-controls="aboutNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="aboutNavbar">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}#search">Search</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ url_for('about') }}">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_login') }}">Admin Access</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="about-hero">
+        <div class="container">
+            <span class="about-eyebrow"><i class="bi bi-info-circle"></i> About TrueFare</span>
+            <h1>Making Local Transportation Fair, Transparent &amp; Trustworthy.</h1>
+            <p>TrueFare is a smart local transport fare verification platform designed to help everyday travelers understand the expected fare before starting their journey.</p>
+        </div>
+    </header>
+
+    <main class="about-content">
+        <div class="container">
+            <section class="about-section" aria-labelledby="introduction-title">
+                <div class="about-panel">
+                    <h2 id="introduction-title"><i class="bi bi-compass me-2 text-primary"></i>Local fares, made easier to understand</h2>
+                    <p>Passengers using auto-rickshaws, e-rickshaws, shared tempos and other local shared transport often struggle to know the reasonable fare for a particular route.</p>
+                    <p>TrueFare aims to solve this problem by bringing local fare information, route details and community feedback together in one simple platform.</p>
+                </div>
+            </section>
+
+            <div class="row g-4 about-section">
+                <section class="col-lg-5" aria-labelledby="problem-title">
+                    <div class="about-panel">
+                        <span class="about-icon"><i class="bi bi-question-circle"></i></span>
+                        <h2 id="problem-title">The Problem We're Solving</h2>
+                        <ul class="about-list">
+                            <li>Passengers often don't know the expected local fare.</li>
+                            <li>Unfamiliar routes can make fare negotiation difficult.</li>
+                            <li>Different fare demands can create confusion.</li>
+                            <li>Reliable local fare information is not always easily available.</li>
+                        </ul>
+                    </div>
+                </section>
+                <section class="col-lg-7" aria-labelledby="solution-title">
+                    <div class="about-panel">
+                        <span class="about-icon"><i class="bi bi-signpost-split"></i></span>
+                        <h2 id="solution-title">Our Solution – How TrueFare Works</h2>
+                        <div class="about-step"><span class="about-step-number">1</span><p>Select your starting point and destination.</p></div>
+                        <div class="about-step"><span class="about-step-number">2</span><p>Check available local fare information.</p></div>
+                        <div class="about-step"><span class="about-step-number">3</span><p>View administrator-verified fares or clearly labelled community-based estimates.</p></div>
+                        <div class="about-step"><span class="about-step-number">4</span><p>Explore the route on the map.</p></div>
+                        <div class="about-step"><span class="about-step-number">5</span><p>Compare the driver's demanded fare with available fare information.</p></div>
+                        <div class="about-step"><span class="about-step-number">6</span><p>Submit feedback to help improve local fare information.</p></div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="row g-4 about-section">
+                <section class="col-lg-6" aria-labelledby="different-title">
+                    <div class="about-panel">
+                        <span class="about-icon"><i class="bi bi-stars"></i></span>
+                        <h2 id="different-title">What Makes TrueFare Different?</h2>
+                        <ul class="about-list">
+                            <li>Local fare information.</li>
+                            <li>Transparent fare comparison.</li>
+                            <li>Map-based route visualization.</li>
+                            <li>Community contributions.</li>
+                            <li>Administrator-reviewed feedback.</li>
+                            <li>Simple and accessible user experience.</li>
+                        </ul>
+                    </div>
+                </section>
+                <section class="col-lg-6" aria-labelledby="transparency-title">
+                    <div class="about-panel">
+                        <span class="about-icon"><i class="bi bi-shield-check"></i></span>
+                        <h2 id="transparency-title">Our Commitment to Transparency</h2>
+                        <p><strong>Verified Fare:</strong> Fare information entered or approved by the administrator.</p>
+                        <p><strong>Community Estimate:</strong> An indicative estimate based on available user feedback.</p>
+                        <p><strong>Unavailable Information:</strong> When reliable data is insufficient, the platform communicates that clearly.</p>
+                        <p>TrueFare is not a ride-booking application and does not use dynamic pricing. It helps users make informed decisions using available local fare information.</p>
+                    </div>
+                </section>
+            </div>
+
+            <div class="row g-4 about-section">
+                <section class="col-lg-4" aria-labelledby="benefit-title">
+                    <div class="about-panel">
+                        <span class="about-icon"><i class="bi bi-people"></i></span>
+                        <h2 id="benefit-title">Who Can Benefit?</h2>
+                        <p>Daily commuters, students, tourists, new residents, families and everyday local transport passengers.</p>
+                    </div>
+                </section>
+                <section class="col-lg-4" aria-labelledby="mission-title">
+                    <div class="about-panel">
+                        <span class="about-icon"><i class="bi bi-bullseye"></i></span>
+                        <h2 id="mission-title">Our Mission</h2>
+                        <p>To make local transportation more transparent by helping passengers access understandable and reliable fare information before travelling.</p>
+                    </div>
+                </section>
+                <section class="col-lg-4" aria-labelledby="vision-title">
+                    <div class="about-panel">
+                        <span class="about-icon"><i class="bi bi-eye"></i></span>
+                        <h2 id="vision-title">Our Vision</h2>
+                        <p>To build a trusted local transport fare information network that can gradually expand across cities and regions in India.</p>
+                    </div>
+                </section>
+            </div>
+
+            <div class="row g-4 about-section">
+                <section class="col-lg-8 mx-auto" aria-labelledby="creator-title">
+                    <div class="about-panel about-creator">
+                        <span class="about-icon"><i class="bi bi-person-badge"></i></span>
+                        <h2 id="creator-title">The Creator</h2>
+                        <p class="about-creator-name mb-1">Nadeem Alam</p>
+                        <p class="mb-0">B.Tech – Computer Science &amp; Engineering (Artificial Intelligence &amp; Machine Learning)</p>
+                    </div>
+                </section>
+            </div>
+
+            <section class="about-section" aria-labelledby="promise-title">
+                <div class="about-panel about-promise">
+                    <span class="about-icon"><i class="bi bi-heart"></i></span>
+                    <h2 id="promise-title">Our Promise</h2>
+                    <blockquote>We want passengers to understand local transportation fares before they travel.<br>Know Your Fare. Travel Fair.</blockquote>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer-section mt-0">
+        <div class="container text-center">
+            <p class="footer-brand mb-2">TrueFare – Making Local Travel Fair &amp; Transparent</p>
+            <p class="footer-main mb-2">Created by Nadeem Alam | © 2026</p>
+            <a class="footer-about-link" href="{{ url_for('index') }}">Back to Home</a>
+        </div>
+    </footer>
+</div>
+{% endblock %}
