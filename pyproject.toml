@@ -1,0 +1,18 @@
+[project]
+name = "truefare"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "Flask==2.3.3",
+    "Flask-SQLAlchemy==3.0.5",
+    "bcrypt==4.0.1",
+    "requests==2.31.0",
+    "numpy==1.26.4",
+    "workers-runtime-sdk>=1.8.2",
+]
+
+[dependency-groups]
+dev = [
+    "workers-py",
+    "workers-runtime-sdk>=1.8.2",
+]

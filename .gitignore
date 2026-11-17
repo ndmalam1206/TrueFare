@@ -9,6 +9,7 @@ dist/
 
 # Virtual environments
 .venv/
+.venv-workers/
 venv/
 env/
 ENV/
@@ -36,6 +37,7 @@ instance/*
 # Node.js and Cloudflare tooling
 node_modules/
 .wrangler/
+src/vendor/
 worker-configuration.d.ts
 
 # Test, editor, and OS files

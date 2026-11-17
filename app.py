@@ -115,7 +115,8 @@ def ensure_schema():
                 )
 
 
-ensure_schema()
+if os.environ.get('TRUEFARE_WORKER') != '1':
+    ensure_schema()
 
 
 @app.context_processor
