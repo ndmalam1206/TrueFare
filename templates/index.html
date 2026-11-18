@@ -240,6 +240,7 @@
             </div>
             <div class="modal-body pt-0">
                 <form id="adminLoginForm" method="post" action="/admin/login">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                     <div class="mb-3">
                         <label for="admin_username" class="form-label fw-semibold">Username</label>
                         <input type="text" class="form-control rounded-3"

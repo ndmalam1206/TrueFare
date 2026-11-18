@@ -112,7 +112,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Form submission with geocoding
-    document.querySelector('form').addEventListener('submit', function(e) {
+    document.querySelector('form').addEventListener('submit', async function(e) {
         e.preventDefault();
 
         const fromAddress = document.getElementById('from').value;

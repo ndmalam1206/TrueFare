@@ -49,9 +49,7 @@
                 return;
             }
 
-            const formData = new FormData();
-            formData.append('username', username);
-            formData.append('password', password);
+            const formData = new FormData(adminLoginForm);
 
             fetch('/admin/login', {
                 method: 'POST',
