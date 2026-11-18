@@ -7,3 +7,6 @@ compatibility_flags = ["python_workers"]
 directory = "static"
 binding = "ASSETS"
 run_worker_first = true
+
+[python_modules]
+exclude = ["**/*.pyc", "**/__pycache__", "**/test/**", "**/tests/**"]

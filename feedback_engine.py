@@ -1,7 +1,15 @@
 from collections import Counter
 from statistics import median, StatisticsError, mode
 
-import numpy as np
+
+
+def _linear_percentile(values, percentile):
+    """Match NumPy's default linear percentile interpolation."""
+    position = (len(values) - 1) * percentile / 100
+    lower_index = int(position)
+    upper_index = min(lower_index + 1, len(values) - 1)
+    fraction = position - lower_index
+    return values[lower_index] + (values[upper_index] - values[lower_index]) * fraction
 
 
 def process_feedback(feedbacks):
@@ -32,7 +40,8 @@ def process_feedback(feedbacks):
     # Remove duplicates and obvious outliers using IQR-based filtering.
     unique_fares = sorted(set(round(f, 2) for f in fares))
     if len(unique_fares) > 1:
-        q75, q25 = np.percentile(unique_fares, [75, 25])
+        q75 = _linear_percentile(unique_fares, 75)
+        q25 = _linear_percentile(unique_fares, 25)
         iqr = q75 - q25
         lower_bound = q25 - 1.5 * iqr
         upper_bound = q75 + 1.5 * iqr

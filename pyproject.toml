@@ -7,12 +7,10 @@ dependencies = [
     "Flask-SQLAlchemy==3.0.5",
     "bcrypt==5.0.0",
     "requests==2.31.0",
-    "numpy==2.4.6",
-    "workers-runtime-sdk>=1.8.2",
 ]
 
 [dependency-groups]
-dev = [
+deploy = [
     "workers-py",
     "workers-runtime-sdk>=1.8.2",
 ]
